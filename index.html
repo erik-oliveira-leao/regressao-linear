@@ -1,0 +1,175 @@
+<html>
+    <head>
+        <title id="header-title"></title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <link rel="icon" type="image/png" href="./favicon.jpg" />
+        <link
+            rel="stylesheet"
+            href="https://pyscript.net/latest/pyscript.css"
+        />
+        <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+        <link rel="stylesheet" href="./assets/css/examples.css" />
+    </head>
+
+    <body>
+        <nav class="navbar"  style="background-color: #308b61">
+            <div class="app-header">
+                <a href="/">
+                    <img src="./logo.png" class="logo" />
+                </a>
+                <a
+                    class="title"
+                    id="page-title"
+                    href=""
+                    style="color: #eeebe6"
+                ></a>
+            </div>
+        </nav>
+
+        <br />
+        <div id="page-message"></div>
+
+        <div id="pandas-source">
+            <h3>Endereço Web</h3>
+            <input type="text" id="txt-url" class="py-input" size="70" />
+            <button
+                type="submit"
+                id="btn-load"
+                class="py-button"
+                py-click="loadFromURL()"
+            >
+                Carregar CSV
+            </button>
+        </div>
+
+        
+
+        <div id="pandas-output" hidden>
+            <h3>Fonte de Dados</h3>
+            <p class="lead">
+                    (DataSet)
+                </p>
+            <div id="pandas-output-inner"></div>
+            <div id="pandas2-output-inner"></div>
+        </div>
+        
+
+        <div id="pandas-repl" hidden>
+            <h3>Código</h3>
+                <p class="lead">
+                    Altere o código depois pressione Shif + Enter para rodar.
+                </p>
+            <py-repl id="pandas-repl-inner" >
+           
+                df_x = df['pib']
+
+                df_y = df ['expecVida']
+
+                x = df_x
+                y = df_y
+                n = 101
+
+
+                print("\n\n")
+                print("|    Pib    | Espectativa de Vida  |")
+                print("|___________|______________________|")
+                for i in range(n):
+                    print("| {:.2f}   |  {:.2f}               |".format(x[i], y[i]))
+                    print("|__________________________________|")
+
+
+                mean_x = sum(x) / n
+                mean_y = sum(y) / n
+
+
+                sxy = sum([x[i] * y[i] for i in range(n)]) - (n * mean_x * mean_y)
+                sxx = sum([x[i] ** 2 for i in range(n)]) - (n * mean_x ** 2)
+                b = sxy / sxx
+                a = mean_y - b * mean_x
+
+
+                r = sxy / ((sxx * sum([(y[i] - mean_y) ** 2 for i in range(n)])) ** 0.5)
+
+                
+                print("Valores da reta de regressão linear:")
+                print("a = {:.2f}".format(a))
+                print("b = {:.2f}".format(b))
+                print("r = {:.2f}".format(r))
+                
+                print("Função y = {:.2f}x + {:.2f}".format(b, a))
+                
+                if r > 0:
+                    print("Há uma forte correlação positiva entre x e y.")
+                elif r < 0:
+                    print("Há uma forte correlação negativa entre x e y.")
+                else:
+                    print("Não há uma correlação forte entre x e y.")
+            </py-repl>
+            
+        </div>
+
+        <div id="pandas-dev-console" hidden>
+            <h3>Dev Console</h3>
+            <py-terminal auto></py-terminal>
+        </div>
+
+        <py-tutor>
+            <py-config>
+                plugins = [
+                "https://pyscript.net/latest/plugins/python/py_tutor.py"
+                ]
+                packages = ["pandas"]
+            </py-config>
+
+            <section class="pyscript">
+                <py-script>
+                    import pandas as pd
+                    from pyodide.http import open_url
+                    import sys
+
+                    title = "Calculadora de Regressão Linear"
+                    page_message = "Escreva o endereço web de um data set no formato csv"
+
+                    url = "https://raw.githubusercontent.com/erik-oliveira-leao/erik-oliveira-leao/main/Brazil.csv"
+                    Element("header-title").element.innerText = title
+                    Element("page-title").element.innerText = title
+                    Element("page-message").element.innerText = page_message
+
+                    Element("txt-url").element.value = url
+
+                    
+
+                    df = pd.DataFrame()
+
+
+                    def loadFromURL(*args, **kws):
+                    	global df
+
+                    	# clear dataframe & output
+                    	df = pd.DataFrame()
+                    	Element("pandas-output-inner").element.innerHTML = ""
+
+                    	url = Element("txt-url").element.value
+                    	log ("Regressão linear de  " + url)
+
+                    	df = pd.read_csv(open_url(url))
+
+                    	Element("pandas-output").element.style.display = "block"
+                    	Element("pandas-repl").element.style.display = "block"
+                    	Element("pandas-dev-console").element.style.display = "block"
+
+                    	display (df, target="pandas-output-inner", append="False")
+
+                    def log(message):
+                    	# log to pyscript dev console
+                    	print (message)
+
+                    	# log to JS console
+                    	js.console.log (message)
+                </py-script>
+            </section>
+        </py-tutor>
+    </body>
+</html>
