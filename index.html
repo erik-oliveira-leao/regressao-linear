@@ -4,6 +4,28 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <link rel="icon" type="image/png" href="./favicon.jpg" />
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <link
             rel="stylesheet"
             href="https://pyscript.net/latest/pyscript.css"
@@ -11,6 +33,44 @@
         <script defer src="https://pyscript.net/latest/pyscript.js"></script>
 
         <link rel="stylesheet" href="./css/estilo.css" />
+        
+        
+        
+           <style>
+
+            footer {
+                background-color: #2d2d30;
+                color: #f5f5f5;
+                padding: 32px;
+              }
+              footer a {
+                color: #f5f5f5;
+              }
+              footer a:hover {
+                color: #777;
+                text-decoration: none;
+              }  
+              .form-control {
+                border-radius: 0;
+              }
+              textarea {
+                resize: none;
+              }
+
+
+
+        </style>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     </head>
 
     <body>
@@ -171,5 +231,40 @@
                 </py-script>
             </section>
         </py-tutor>
+            
+            <footer class="text-center">
+            <a class="up-arrow" href="#myPage" data-toggle="tooltip" title="INICIO DA PÁGINA">
+              <span class="glyphicon glyphicon-chevron-up"></span>
+            </a><br><br>
+            <p>CTRL + Z  INFORMÁTICA</p> 
+          </footer>
+          <script>
+            $(document).ready(function(){
+              $('[data-toggle="tooltip"]').tooltip(); 
+              $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+                if (this.hash !== "") {
+                  event.preventDefault();
+                  var hash = this.hash;
+                  $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                  }, 900, function(){
+                    window.location.hash = hash;
+                  });
+                } 
+              });
+            })
+            </script>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
     </body>
 </html>
